@@ -134,6 +134,14 @@ export class Player extends Physics.Arcade.Sprite {
       frames: this.anims.generateFrameNumbers('bomberman-dead'),
       frameRate: 8
     });
+
+    this.anims.create({
+      key: 'idle',
+      frames: this.anims.generateFrameNumbers('bomberman-move', {
+        frames: [7]
+      }),
+      frameRate: 1
+    });
   }
 
   /**
@@ -171,6 +179,7 @@ export class Player extends Physics.Arcade.Sprite {
   }
 
   addControlsListener() {
+    console.log('here');
     if (this.body?.enable) {
       this.setVelocity(0);
 
@@ -218,6 +227,7 @@ export class Player extends Physics.Arcade.Sprite {
       // Stop current animation to avoid infinite loop ("walking")
       if (this._direction != PLAYER_DIRECTION_ENUM.IDLE) {
         this.stop();
+        this.play('idle');
         this._direction = PLAYER_DIRECTION_ENUM.IDLE;
       }
     }
