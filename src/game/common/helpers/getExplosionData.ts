@@ -1,6 +1,8 @@
 import { IExplosionFragment } from '@game/common/interfaces/IExplosionFragment';
 
 const getExplosionData = (): IExplosionFragment[] => {
+  // Radius of explosion
+  const radius = 5;
   // Visual distance bettween sprites (center of the explosion and the other fragments)
   const visualOffsetAxis = 33;
 
@@ -8,7 +10,7 @@ const getExplosionData = (): IExplosionFragment[] => {
   // You shouldn't modify this value unless you're doing changes in the tilemap
   const tileOffsetAxis = 40;
 
-  return [
+  const explosionTemplate = [
     {
       spriteXOffset: 0,
       spriteYOffset: 0,
@@ -49,6 +51,16 @@ const getExplosionData = (): IExplosionFragment[] => {
       textureKeyExtension: 'explosion-extension-horizontal'
     }
   ];
+
+  return Array.from({ length: radius }, (_, i) => i + 1).flatMap((_, exp) =>
+    explosionTemplate.map((explosion) => ({
+      ...explosion,
+      spriteXOffset: explosion.spriteXOffset * exp,
+      spriteYOffset: explosion.spriteYOffset * exp,
+      tileXOffset: explosion.tileXOffset * exp,
+      tileYOffset: explosion.tileYOffset * exp
+    }))
+  );
 };
 
 export default getExplosionData;
